@@ -1,0 +1,27 @@
+﻿<Window x:Class="Prb.Casting.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Prb.Casting.Wpf"
+        mc:Ignorable="d"
+        Title="Oefening klassen-fields : moviecastings" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <GroupBox x:Name="grpMovies" Header="Films" HorizontalAlignment="Left" Height="373" Margin="10,0,0,0"  Width="312">
+            <Grid>
+                <ListBox x:Name="lstMovies" Margin="10,10,10,10" SelectionChanged="lstMovies_SelectionChanged"/>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="grpCasting" Header="Cast" HorizontalAlignment="Left" Height="373" Margin="360,0,0,0"  Width="312">
+            <Grid>
+                <Label Content="Casting : " Margin="10,10,231,314"/>
+                <ListBox x:Name="lstCasting" HorizontalAlignment="Left" Height="215" Margin="10,41,0,0" VerticalAlignment="Top" Width="252"/>
+                <Button x:Name="btnRemoveFromCasting" Content="X" Foreground="Tomato" FontWeight="Bold" ToolTip="Verwijder acteur uit deze casting" HorizontalAlignment="Left" Height="25" Margin="267,76,0,0" VerticalAlignment="Top" Width="23" Click="btnRemoveFromCasting_Click"/>
+                <Label Content="Beschikbare acteurs : " Margin="10,272,164,52"/>
+                <ComboBox x:Name="cmbActors" HorizontalAlignment="Left" Height="27" Margin="10,303,0,0" VerticalAlignment="Top" Width="252"/>
+                <Button x:Name="btnAddToCasting" Content="+" Foreground="ForestGreen" FontWeight="Bold" ToolTip="Verwijder acteur uit deze casting" HorizontalAlignment="Left" Height="25" Margin="267,303,0,0" VerticalAlignment="Top" Width="23" Click="btnAddToCasting_Click"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>
