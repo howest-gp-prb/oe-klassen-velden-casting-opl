@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,90 +26,35 @@ namespace Prb.Casting.Wpf
         {
             InitializeComponent();
         }
-        List<Actor> actors;
-        List<Movie> movies;
-        List<Cast> casts;
-
-        private void DoSeeding()
+        MovieService movieService;
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            actors.Add(new Actor("Jackson", "Samuel"));
-            actors.Add(new Actor("Willis", "Bruce"));
-            actors.Add(new Actor("Pitt", "Brad"));
-            actors.Add(new Actor("Neeson", "Liam"));
-            actors.Add(new Actor("Lewis", "Damian"));
-            actors.Add(new Actor("Cumberbatch", "Benedict"));
-            actors.Add(new Actor("Jolie", "Angelina"));
-            actors.Add(new Actor("Cafmeyer", "Maaike"));
-
-            movies.Add(new Movie("Sherlock Holmes", 2004));
-            movies.Add(new Movie("Another movie", 2001));
-            movies.Add(new Movie("And another movie", 1980));
-            movies.Add(new Movie("And again another movie", 1980));
-            movies.Add(new Movie("Pigs in space", 1960));
-            movies.Add(new Movie("Eddy in space", 1990));
+            movieService = new MovieService();
+            PopulateMovies();
         }
 
         private void PopulateMovies()
         {
             lstMovies.ItemsSource = null;
-            lstMovies.ItemsSource = movies;
+            lstMovies.ItemsSource = movieService.Movies;
         }
         private void PopulateActorsInCasting(string movie_id)
         {
-            lstCasting.Items.Clear();
-            foreach(Cast cast in casts)
-            {
-                if(cast.movie_id == movie_id)
-                {
-                    string actor_id = cast.actor_id;
-                    foreach(Actor actor in actors)
-                    {
-                        if(actor.ID == actor_id)
-                        {
-                            lstCasting.Items.Add(actor);
-                            break;
-                        }
-                    }
-                }
-            }
+            lstCasting.ItemsSource = null;
+            lstCasting.ItemsSource = movieService.GetActorsInMovie(movie_id);
         }
         private void PopulateActorsNotInCasting(string movie_id)
         {
-            cmbActors.Items.Clear();
-            foreach(Actor actor in actors)
-            {
-                string actor_id = actor.ID;
-                bool inMovie = false;
-                foreach(Cast cast in casts)
-                {
-                    if(cast.actor_id == actor_id && cast.movie_id == movie_id)
-                    {
-                        inMovie = true;
-                        break;
-                    }
-                }
-                if(!inMovie)
-                {
-                    cmbActors.Items.Add(actor);
-                }
-            }
+            cmbActors.ItemsSource = null;
+            cmbActors.ItemsSource = movieService.GetActorsNotInMovie(movie_id);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            actors = new List<Actor>();
-            movies = new List<Movie>();
-            casts = new List<Cast>();
 
-            DoSeeding();
-            PopulateMovies();
-            
-        }
 
         private void lstMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lstCasting.Items.Clear();
-            cmbActors.Items.Clear();
+            lstCasting.ItemsSource = null;
+            cmbActors.ItemsSource = null;
             if (lstMovies.SelectedItem == null)
                 return;
 
@@ -126,7 +72,7 @@ namespace Prb.Casting.Wpf
 
             Movie movie = (Movie)lstMovies.SelectedItem;
             Actor actor = (Actor)cmbActors.SelectedItem;
-            casts.Add(new Cast(movie.ID, actor.ID));
+            movieService.AddActorToMovie(movie, actor);
             PopulateActorsInCasting(movie.ID);
             PopulateActorsNotInCasting(movie.ID);
 
@@ -142,14 +88,7 @@ namespace Prb.Casting.Wpf
 
             Actor actor = (Actor)lstCasting.SelectedItem;
             Movie movie = (Movie)lstMovies.SelectedItem;
-            foreach(Cast cast in casts)
-            {
-                if(cast.movie_id == movie.ID && cast.actor_id == actor.ID)
-                {
-                    casts.Remove(cast);
-                    break;
-                }
-            }
+            movieService.RemoveActorFromMovie(movie, actor);
             PopulateActorsInCasting(movie.ID);
             PopulateActorsNotInCasting(movie.ID);
 
