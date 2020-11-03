@@ -63,7 +63,7 @@ namespace Prb.Casting.Wpf
                     string actor_id = cast.actor_id;
                     foreach(Actor actor in actors)
                     {
-                        if(actor.id == actor_id)
+                        if(actor.ID == actor_id)
                         {
                             lstCasting.Items.Add(actor);
                             break;
@@ -77,7 +77,7 @@ namespace Prb.Casting.Wpf
             cmbActors.Items.Clear();
             foreach(Actor actor in actors)
             {
-                string actor_id = actor.id;
+                string actor_id = actor.ID;
                 bool inMovie = false;
                 foreach(Cast cast in casts)
                 {
@@ -113,8 +113,8 @@ namespace Prb.Casting.Wpf
                 return;
 
             Movie movie = (Movie)lstMovies.SelectedItem;
-            PopulateActorsInCasting(movie.id);
-            PopulateActorsNotInCasting(movie.id);
+            PopulateActorsInCasting(movie.ID);
+            PopulateActorsNotInCasting(movie.ID);
         }
 
         private void btnAddToCasting_Click(object sender, RoutedEventArgs e)
@@ -126,9 +126,9 @@ namespace Prb.Casting.Wpf
 
             Movie movie = (Movie)lstMovies.SelectedItem;
             Actor actor = (Actor)cmbActors.SelectedItem;
-            casts.Add(new Cast(movie.id, actor.id));
-            PopulateActorsInCasting(movie.id);
-            PopulateActorsNotInCasting(movie.id);
+            casts.Add(new Cast(movie.ID, actor.ID));
+            PopulateActorsInCasting(movie.ID);
+            PopulateActorsNotInCasting(movie.ID);
 
 
         }
@@ -144,14 +144,14 @@ namespace Prb.Casting.Wpf
             Movie movie = (Movie)lstMovies.SelectedItem;
             foreach(Cast cast in casts)
             {
-                if(cast.movie_id == movie.id && cast.actor_id == actor.id)
+                if(cast.movie_id == movie.ID && cast.actor_id == actor.ID)
                 {
                     casts.Remove(cast);
                     break;
                 }
             }
-            PopulateActorsInCasting(movie.id);
-            PopulateActorsNotInCasting(movie.id);
+            PopulateActorsInCasting(movie.ID);
+            PopulateActorsNotInCasting(movie.ID);
 
         }
     }

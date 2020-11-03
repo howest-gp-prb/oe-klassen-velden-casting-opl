@@ -6,15 +6,39 @@ namespace Prb.Casting.Core
 {
     public class Actor
     {
-        public string id;
-        public string lastName;
-        public string firstName;
+        private string id;
+        private string lastName;
+        private string firstName;
+
+        public string ID
+        {
+            get { return id; }
+        }
+        public string  LastName
+        {
+            get { return lastName; }
+            set 
+            {
+                value = value.Trim();
+                lastName = value; 
+            }
+        }
+        public string  FirstName
+        {
+            get { return firstName; }
+            set 
+            {
+                value = value.Trim();
+                firstName = value; 
+            }
+        }
+
 
         public Actor(string lastName, string firstName)
         {
             id = Guid.NewGuid().ToString();
-            this.lastName = lastName;
-            this.firstName = firstName;
+            LastName = lastName;
+            FirstName = firstName;
         }
         public override string ToString()
         {
