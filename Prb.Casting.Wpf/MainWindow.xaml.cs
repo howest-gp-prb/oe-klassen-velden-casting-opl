@@ -38,15 +38,15 @@ namespace Prb.Casting.Wpf
             lstMovies.ItemsSource = null;
             lstMovies.ItemsSource = movieService.Movies;
         }
-        private void PopulateActorsInCasting(string movie_id)
+        private void PopulateActorsInCasting(Movie movie)
         {
             lstCasting.ItemsSource = null;
-            lstCasting.ItemsSource = movieService.GetActorsInMovie(movie_id);
+            lstCasting.ItemsSource = movieService.GetActorsInMovie(movie);
         }
-        private void PopulateActorsNotInCasting(string movie_id)
+        private void PopulateActorsNotInCasting(Movie movie)
         {
             cmbActors.ItemsSource = null;
-            cmbActors.ItemsSource = movieService.GetActorsNotInMovie(movie_id);
+            cmbActors.ItemsSource = movieService.GetActorsNotInMovie(movie);
         }
 
 
@@ -59,8 +59,8 @@ namespace Prb.Casting.Wpf
                 return;
 
             Movie movie = (Movie)lstMovies.SelectedItem;
-            PopulateActorsInCasting(movie.ID);
-            PopulateActorsNotInCasting(movie.ID);
+            PopulateActorsInCasting(movie);
+            PopulateActorsNotInCasting(movie);
         }
 
         private void btnAddToCasting_Click(object sender, RoutedEventArgs e)
@@ -73,8 +73,8 @@ namespace Prb.Casting.Wpf
             Movie movie = (Movie)lstMovies.SelectedItem;
             Actor actor = (Actor)cmbActors.SelectedItem;
             movieService.AddActorToMovie(movie, actor);
-            PopulateActorsInCasting(movie.ID);
-            PopulateActorsNotInCasting(movie.ID);
+            PopulateActorsInCasting(movie);
+            PopulateActorsNotInCasting(movie);
 
 
         }
@@ -89,8 +89,8 @@ namespace Prb.Casting.Wpf
             Actor actor = (Actor)lstCasting.SelectedItem;
             Movie movie = (Movie)lstMovies.SelectedItem;
             movieService.RemoveActorFromMovie(movie, actor);
-            PopulateActorsInCasting(movie.ID);
-            PopulateActorsNotInCasting(movie.ID);
+            PopulateActorsInCasting(movie);
+            PopulateActorsNotInCasting(movie);
 
         }
     }

@@ -6,12 +6,13 @@ namespace Prb.Casting.Core
 {
     public class Cast
     {
-        public string movie_id;
-        public string actor_id;
-        public Cast(string movie_id, string actor_id)
+        public Movie Movie { get; set; }
+        public Actor Actor { get; set; }
+
+        public Cast(Movie movie, Actor actor)
         {
-            this.movie_id = movie_id;
-            this.actor_id = actor_id;
+            Movie = movie;
+            Actor = actor;
         }
     }
 }

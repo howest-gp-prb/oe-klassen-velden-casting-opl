@@ -50,17 +50,16 @@ namespace Prb.Casting.Core
             movies.Add(new Movie("Eddy in space", 1990));
         }
 
-        public List<Actor> GetActorsInMovie(string movie_id)
+        public List<Actor> GetActorsInMovie(Movie movie)
         {
             List<Actor> actorsInMovie = new List<Actor>();
             foreach (Cast cast in casts)
             {
-                if (cast.movie_id == movie_id)
+                if (cast.Movie == movie)
                 {
-                    string actor_id = cast.actor_id;
                     foreach (Actor actor in actors)
                     {
-                        if (actor.ID == actor_id)
+                        if (actor == cast.Actor)
                         {
                             actorsInMovie.Add(actor);
                             break;
@@ -70,16 +69,15 @@ namespace Prb.Casting.Core
             }
             return actorsInMovie;
         }
-        public List<Actor> GetActorsNotInMovie(string movie_id)
+        public List<Actor> GetActorsNotInMovie(Movie movie)
         {
             List<Actor> actorsNotInMovie = new List<Actor>();
             foreach (Actor actor in actors)
             {
-                string actor_id = actor.ID;
                 bool inMovie = false;
                 foreach (Cast cast in casts)
                 {
-                    if (cast.actor_id == actor_id && cast.movie_id == movie_id)
+                    if (cast.Actor == actor && cast.Movie == movie)
                     {
                         inMovie = true;
                         break;
@@ -94,13 +92,13 @@ namespace Prb.Casting.Core
         }
         public void AddActorToMovie(Movie movie, Actor actor)
         {
-            casts.Add(new Cast(movie.ID, actor.ID));
+            casts.Add(new Cast(movie, actor));
         }
         public void RemoveActorFromMovie(Movie movie, Actor actor)
         {
             foreach (Cast cast in casts)
             {
-                if (cast.movie_id == movie.ID && cast.actor_id == actor.ID)
+                if (cast.Movie == movie && cast.Actor == actor)
                 {
                     casts.Remove(cast);
                     break;
