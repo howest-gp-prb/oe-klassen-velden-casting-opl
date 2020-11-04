@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Prb.Casting.Core
@@ -48,6 +49,8 @@ namespace Prb.Casting.Core
             movies.Add(new Movie("And again another movie", 1980));
             movies.Add(new Movie("Pigs in space", 1960));
             movies.Add(new Movie("Eddy in space", 1990));
+
+            movies = movies.OrderBy(m => m.Name).ToList();
         }
 
         public List<Actor> GetActorsInMovie(Movie movie)
@@ -57,37 +60,22 @@ namespace Prb.Casting.Core
             {
                 if (cast.Movie == movie)
                 {
-                    foreach (Actor actor in actors)
-                    {
-                        if (actor == cast.Actor)
-                        {
-                            actorsInMovie.Add(actor);
-                            break;
-                        }
-                    }
+                    actorsInMovie.Add(cast.Actor);
                 }
             }
+            actorsInMovie = actorsInMovie.OrderBy(a => a.LastName).ThenBy(a => a.FirstName).ToList();
             return actorsInMovie;
         }
         public List<Actor> GetActorsNotInMovie(Movie movie)
         {
+            List<Actor> actorsInMovie = GetActorsInMovie(movie);
             List<Actor> actorsNotInMovie = new List<Actor>();
             foreach (Actor actor in actors)
             {
-                bool inMovie = false;
-                foreach (Cast cast in casts)
-                {
-                    if (cast.Actor == actor && cast.Movie == movie)
-                    {
-                        inMovie = true;
-                        break;
-                    }
-                }
-                if (!inMovie)
-                {
+                if(!actorsInMovie.Contains(actor))
                     actorsNotInMovie.Add(actor);
-                }
             }
+            actorsNotInMovie = actorsNotInMovie.OrderBy(a => a.LastName).ThenBy(a => a.FirstName).ToList();
             return actorsNotInMovie;
         }
         public void AddActorToMovie(Movie movie, Actor actor)
